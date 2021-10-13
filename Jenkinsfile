@@ -42,6 +42,12 @@ pipeline{
         }
       }
     }
+    docker.withRegistry('nexus:8123', '6b2d0b83-9cca-4d23-b69b-bcf247bc8379') {
+      sh 'cd prod'
+      sh 'docker build --tag prodserver'
+      sh 'docker tag prodserver nexus:8123/prodserver:latest'
+      docker.image('prodserver').push('latest')
+    }        
     stage('Build and push prod docker image') {
       // steps {
       //   sh 'cd prod'
@@ -50,12 +56,6 @@ pipeline{
         // sh 'docker login -u admin -p nucsfvkmpp nexus:8123'
         // sh 'docker push nexus:8123/prodserver:latest'
       // }
-      docker.withRegistry('nexus:8123', '6b2d0b83-9cca-4d23-b69b-bcf247bc8379') {
-        sh 'cd prod'
-        sh 'docker build --tag prodserver'
-        sh 'docker tag prodserver nexus:8123/prodserver:latest'
-        docker.image('prodserver').push('latest')
-      }        
       post{
         success{
           chuckNorris()
