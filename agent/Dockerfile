@@ -1,10 +1,12 @@
 FROM maven:latest
 
 # Install pacakges
-RUN apt update
+RUN apt-get update
 
 # Install docker 18.03
-RUN apt install -y docker.io
+RUN apt-get install -y docker.io
 
 # Clear cache
-RUN apt clean
+RUN apt-get clean
+
+COPY daemon.json /etc/docker
