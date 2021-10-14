@@ -5,16 +5,13 @@ pipeline{
       filename 'Dockerfile'
       customWorkspace 'agent'
     }
-  }    
+  }
   stages{
     stage('Copy source with configs') {
       steps {
         git 'https://github.com/boxfuse/boxfuse-sample-java-war-hello.git'
         sh 'rm -rf ./conf'
         sh 'git clone https://github.com/artem-pvl/devops_hw_11.git ./conf'
-        // sh 'ssh-keyscan -H node-1'
-        // sh 'ssh-keyscan -H node-1 >> ~/.ssh/known_hosts'
-        // sh 'scp jenkins@devbuild-srv01:/home/jenkins/build/configs/staging/gateway-api/application-business-config-defaults.yml gateway-api/src/main/resources/application-business-config-defaults.yml'
       }
       post{
           failure{
@@ -36,7 +33,6 @@ pipeline{
     }
     stage('Build and push prod docker image') {
       steps {
-        // sh 'cd prod'
         script {
           docker.withRegistry('http://nexus:8123', '6b2d0b83-9cca-4d23-b69b-bcf247bc8379') {
             sh 'cp ./target/hello-1.0.war ./conf/prod'
@@ -45,11 +41,6 @@ pipeline{
             docker.image('prodserver').push('latest')
           }
         }
-          // sh 'cp ./target/hello-1.0.war ./conf/prod'
-          // sh 'docker build --tag prodserver ./conf/prod'
-          // sh 'docker tag prodserver nexus:8123/prodserver:latest'
-          // sh 'docker login -u admin -p nucsfvkmpp nexus:8123'
-          // sh 'docker push nexus:8123/prodserver:latest'
       }   
       post{
         failure{
