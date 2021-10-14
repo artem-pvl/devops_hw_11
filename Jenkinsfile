@@ -43,6 +43,7 @@ pipeline{
     stage('Build and push prod docker image') {
       steps {
         // sh 'cd prod'
+        sh 'cp ./target/hello-1.0.war ./conf/prod'
         sh 'docker build --tag prodserver ./conf/prod'
         sh 'docker tag prodserver nexus:8123/prodserver:latest'
         sh 'docker login -u admin -p nucsfvkmpp nexus:8123'
