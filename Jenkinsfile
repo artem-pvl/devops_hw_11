@@ -44,7 +44,7 @@ pipeline{
       steps {
         // sh 'cd prod'
         script {
-          docker.withRegistry('http://nexus:8081/repository/docker-repo/', '6b2d0b83-9cca-4d23-b69b-bcf247bc8379') {
+          docker.withRegistry('http://nexus:8123', '6b2d0b83-9cca-4d23-b69b-bcf247bc8379') {
             sh 'cp ./target/hello-1.0.war ./conf/prod'
             sh 'docker build --tag prodserver ./conf/prod'
             sh 'docker tag prodserver nexus:8123/prodserver:latest'
