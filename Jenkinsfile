@@ -4,6 +4,7 @@ pipeline{
       dir 'agent'
       filename 'Dockerfile'
       customWorkspace 'agent'
+      args '-v /etc/passwd:/etc/passwd'
     }
   }    
   stages{
