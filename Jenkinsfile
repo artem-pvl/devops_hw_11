@@ -57,6 +57,34 @@ pipeline{
         }
       }
     }
+    // stage('Run prod docker container on node-1') {
+    //   steps {
+    //     sshagent(credentials: ['03e37b83-d2ee-4eed-80bc-25f230d29ae9']) {
+    //       sh 'ssh -vvv -o StrictHostKeyChecking=no -l root@node-1 docker stop prodserver \
+    //         && docker run -d --rm --name prodserver -p 80:8080 nexus:8123/prodserver:latest'
+    //     }        
+    //     // sh 'touch ~/.ssh/known_hosts'
+    //     // sh 'ssh-keyscan -H node-1 >> ~/.ssh/known_hosts'
+    //     // sh 'ssh root@node-1 << EOF'
+    //     // sh 'EOF'
+    //   }
+    //   post{
+    //     failure{
+    //         echo "========A execution failed========"
+    //     }
+    //   }
+    // }
+  }
+  post{
+      success{
+          chuckNorris()
+      }
+      failure{
+          echo "||| *** ||| pipeline execution failed ||| *** |||"
+      }
+  }
+  agent any
+  stages{
     stage('Run prod docker container on node-1') {
       steps {
         sshagent(credentials: ['03e37b83-d2ee-4eed-80bc-25f230d29ae9']) {
@@ -74,13 +102,5 @@ pipeline{
         }
       }
     }
-  }
-  post{
-      success{
-          chuckNorris()
-      }
-      failure{
-          echo "||| *** ||| pipeline execution failed ||| *** |||"
-      }
   }
 }
