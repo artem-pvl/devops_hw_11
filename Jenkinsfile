@@ -59,12 +59,14 @@ pipeline{
     }
     stage('Run prod docker container on node-1') {
       steps {
-        sh 'touch ~/.ssh/known_hosts'
-        sh 'ssh-keyscan -H node-1 >> ~/.ssh/known_hosts'
-        sh 'ssh root@node-1 << EOF'
-        sh 'docker stop prodserver'
-        sh 'docker run -d --rm --name prodserver -p 80:8080 nexus:8123/prodserver:latest'
-        sh 'EOF'
+        sshagent(['623e2cab-6894-4bde-8d95-2107aac00228']) {
+          sh 'docker stop prodserver'
+          sh 'docker run -d --rm --name prodserver -p 80:8080 nexus:8123/prodserver:latest'
+        }        
+        // sh 'touch ~/.ssh/known_hosts'
+        // sh 'ssh-keyscan -H node-1 >> ~/.ssh/known_hosts'
+        // sh 'ssh root@node-1 << EOF'
+        // sh 'EOF'
       }
       post{
         failure{
