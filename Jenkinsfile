@@ -22,7 +22,7 @@ pipeline{
     }
     stage('Build app') {
       steps {
-        withMaven(mavenLocalRepo: 'prod/.maven_repo') {
+        withMaven {
           sh 'mvn package'
         }
       }
