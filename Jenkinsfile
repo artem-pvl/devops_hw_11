@@ -3,12 +3,14 @@ pipeline{
     dockerfile {
       dir 'agent'
       filename 'Dockerfile'
+      customWorkspace 'agent'
     }
   }    
   stages{
     stage('Copy source with configs') {
       steps {
         git 'https://github.com/boxfuse/boxfuse-sample-java-war-hello.git'
+        sh 'rm -rf ./conf'
         sh 'git clone https://github.com/artem-pvl/devops_hw_11.git ./conf'
         // sh 'ssh-keyscan -H node-1'
         // sh 'ssh-keyscan -H node-1 >> ~/.ssh/known_hosts'
