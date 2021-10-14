@@ -9,7 +9,8 @@ pipeline{
     stage('Copy source with configs') {
       steps {
         git 'https://github.com/boxfuse/boxfuse-sample-java-war-hello.git'
-        sh 'ssh-keyscan -H node-1 >> ~/.ssh/known_hosts'
+        sh 'ssh-keyscan -H node-1'
+        // sh 'ssh-keyscan -H node-1 >> ~/.ssh/known_hosts'
         // sh 'scp jenkins@devbuild-srv01:/home/jenkins/build/configs/staging/gateway-api/application-business-config-defaults.yml gateway-api/src/main/resources/application-business-config-defaults.yml'
       }
       post{
