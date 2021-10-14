@@ -9,7 +9,7 @@ pipeline{
     stage('Copy source with configs') {
       steps {
         git 'https://github.com/boxfuse/boxfuse-sample-java-war-hello.git'
-        git 'https://github.com/artem-pvl/devops_hw_11.git'
+        sh 'git clone https://github.com/artem-pvl/devops_hw_11.git ./conf'
         // sh 'ssh-keyscan -H node-1'
         // sh 'ssh-keyscan -H node-1 >> ~/.ssh/known_hosts'
         // sh 'scp jenkins@devbuild-srv01:/home/jenkins/build/configs/staging/gateway-api/application-business-config-defaults.yml gateway-api/src/main/resources/application-business-config-defaults.yml'
@@ -41,7 +41,7 @@ pipeline{
     stage('Build and push prod docker image') {
       steps {
         // sh 'cd prod'
-        sh 'docker build --tag prodserver ./prod'
+        sh 'docker build --tag prodserver ./conf/prod'
         sh 'docker tag prodserver nexus:8123/prodserver:latest'
         sh 'docker login -u admin -p nucsfvkmpp nexus:8123'
         sh 'docker push nexus:8123/prodserver:latest'
