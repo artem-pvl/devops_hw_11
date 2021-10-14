@@ -14,12 +14,6 @@ pipeline{
         // sh 'scp jenkins@devbuild-srv01:/home/jenkins/build/configs/staging/gateway-api/application-business-config-defaults.yml gateway-api/src/main/resources/application-business-config-defaults.yml'
       }
       post{
-          // always{
-          //     echo "========always========"
-          // }
-          success{
-              echo "========A executed successfully========"
-          }
           failure{
               echo "========A execution failed========"
           }
@@ -32,9 +26,6 @@ pipeline{
         }
       }
       post{
-        success{
-          chuckNorris()
-        }
         failure{
             echo "========A execution failed========"
         }
@@ -48,16 +39,13 @@ pipeline{
     // }        
     stage('Build and push prod docker image') {
       steps {
-        sh 'cd prod'
-        sh 'docker build --tag prodserver .'
+        // sh 'cd prod'
+        sh 'docker build --tag prodserver ./prod'
         sh 'docker tag prodserver nexus:8123/prodserver:latest'
         sh 'docker login -u admin -p nucsfvkmpp nexus:8123'
         sh 'docker push nexus:8123/prodserver:latest'
       }
       post{
-        success{
-          chuckNorris()
-        }
         failure{
             echo "========A execution failed========"
         }
@@ -72,9 +60,6 @@ pipeline{
         sh 'EOF'
       }
       post{
-        success{
-          chuckNorris()
-        }
         failure{
             echo "========A execution failed========"
         }
@@ -82,14 +67,11 @@ pipeline{
     }
   }
   post{
-      always{
-          echo "========always========"
-      }
       success{
-          echo "========pipeline executed successfully ========"
+          chuckNorris()
       }
       failure{
-          echo "========pipeline execution failed========"
+          echo "||| *** ||| pipeline execution failed ||| *** |||"
       }
   }
 }
