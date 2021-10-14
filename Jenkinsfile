@@ -43,14 +43,14 @@ pipeline{
     stage('Build and push prod docker image') {
       steps {
         // sh 'cd prod'
-        // script {
-        //   docker.withRegistry('nexus:8123', '6b2d0b83-9cca-4d23-b69b-bcf247bc8379') {
-        //     sh 'cp ./target/hello-1.0.war ./conf/prod'
-        //     sh 'docker build --tag prodserver ./conf/prod'
-        //     sh 'docker tag prodserver nexus:8123/prodserver:latest'
-        //     docker.image('prodserver').push('latest')
-        //   }        
-        // }   
+        script {
+          docker.withRegistry('nexus:8123', '6b2d0b83-9cca-4d23-b69b-bcf247bc8379') {
+            sh 'cp ./target/hello-1.0.war ./conf/prod'
+            sh 'docker build --tag prodserver ./conf/prod'
+            sh 'docker tag prodserver nexus:8123/prodserver:latest'
+            docker.image('prodserver').push('latest')
+          }        
+        }   
         sh 'cp ./target/hello-1.0.war ./conf/prod'
         sh 'docker build --tag prodserver ./conf/prod'
         sh 'docker tag prodserver nexus:8123/prodserver:latest'
