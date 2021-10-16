@@ -52,6 +52,7 @@ pipeline {
     stage('Run prod docker container on node-1') {
       steps {
         sh 'ls -la /dev/tty'
+        sh 'id'
         sh 'ssh -vvv root@node-1 docker stop prodserver'
             // && docker run -d --rm --name prodserver -p 80:8080 nexus:8123/prodserver:latest'
         // sh 'touch ~/.ssh/known_hosts'
