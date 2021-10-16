@@ -1,11 +1,12 @@
 pipeline {
-  agent {
-    docker {
-      alwaysPull true
-      args '-u 0:0 -v /$USER/.ssh/id_rsa:/$USER/.ssh/id_rsa'
-      image 'nexus:8123/buildserver:latest'
-    }
-  }
+  // agent {
+  //   docker {
+  //     alwaysPull true
+  //     args '-u 0:0 -v /$USER/.ssh/id_rsa:/$USER/.ssh/id_rsa'
+  //     image 'nexus:8123/buildserver:latest'
+  //   }
+  // }
+  agent any
   stages{
     stage('debug') {
       steps {
@@ -13,32 +14,39 @@ pipeline {
         sh 'cat /$USER/.ssh/id_rsa'
       }
     }
-    stage('Copy source with configs') {
-      steps {
-        git 'https://github.com/boxfuse/boxfuse-sample-java-war-hello.git'
-        sh 'rm -rf ./conf'
-        sh 'git clone https://github.com/artem-pvl/devops_hw_11.git ./conf'
+    // stage('Copy source with configs') {
+    //   agent {
+    //     docker {
+    //       alwaysPull true
+    //       reuseNode true
+    //       args '-u 0:0 -v /$USER/.ssh/id_rsa:/$USER/.ssh/id_rsa'
+    //       image 'nexus:8123/buildserver:latest'
+    //     }
+    //   }
+    //   steps {
+    //     git 'https://github.com/boxfuse/boxfuse-sample-java-war-hello.git'
+    //     sh 'rm -rf ./conf'
+    //     sh 'git clone https://github.com/artem-pvl/devops_hw_11.git ./conf'
+    //   }
+    //   post{
+    //       failure{
+    //           echo "========A execution failed========"
+    //       }
+    //   }
+    // }
+    stage('Build app image and push to nexus') {
+      agent {
+        docker {
+          alwaysPull true
+          reuseNode true
+          args '-u 0:0 -v /$USER/.ssh/id_rsa:/$USER/.ssh/id_rsa'
+          image 'nexus:8123/buildserver:latest'
+        }
       }
-      post{
-          failure{
-              echo "========A execution failed========"
-          }
-      }
-    }
-    stage('Build app') {
       steps {
         withMaven {
           sh 'mvn package'
         }
-      }
-      post{
-        failure{
-            echo "========A execution failed========"
-        }
-      }
-    }
-    stage('Build and push prod docker image') {
-      steps {
         script {
           docker.withRegistry('http://nexus:8123', '6b2d0b83-9cca-4d23-b69b-bcf247bc8379') {
             sh 'cp ./target/hello-1.0.war ./conf/prod'
@@ -49,11 +57,6 @@ pipeline {
           }
         }
       }   
-      post{
-        failure{
-            echo "========A execution failed========"
-        }
-      }
     }
     stage('Run prod docker container on node-1') {
       steps {
@@ -66,11 +69,6 @@ pipeline {
         // sh 'ssh-keyscan -H node-1 >> ~/.ssh/known_hosts'
         // sh 'ssh root@node-1 << EOF'
         // sh 'EOF'
-      }
-      post{
-        failure{
-            echo "========A execution failed========"
-        }
       }
     }
   }
