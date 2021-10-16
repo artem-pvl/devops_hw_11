@@ -6,7 +6,7 @@ pipeline {
     //   customWorkspace 'agent'
     // }
     dockerfile {
-      // dir 'agent'
+      dir '.'
       filename './agent/Dockerfile'
       // dir './agent'
       // additionalBuildArgs '-t buildserver'
