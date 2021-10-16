@@ -8,12 +8,12 @@ pipeline {
   // }
   agent any
   stages{
-    stage('debug') {
-      steps {
-        sh 'id'
-        sh 'cat /root/.ssh/id_rsa'
-      }
-    }
+    // stage('debug') {
+    //   steps {
+    //     sh 'id'
+    //     sh 'cat /root/.ssh/id_rsa'
+    //   }
+    // }
     // stage('Copy source with configs') {
     //   agent {
     //     docker {
@@ -49,7 +49,7 @@ pipeline {
     //     sh 'git clone https://github.com/artem-pvl/devops_hw_11.git ./conf'
         git 'https://github.com/boxfuse/boxfuse-sample-java-war-hello.git'
         withMaven {
-          sh 'mvn -f ./conf package'
+          sh 'mvn package'
         }
         script {
           docker.withRegistry('http://nexus:8123', '6b2d0b83-9cca-4d23-b69b-bcf247bc8379') {
