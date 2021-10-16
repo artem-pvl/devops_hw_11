@@ -64,8 +64,8 @@ pipeline {
     }
     stage('Run prod docker container on node-1') {
       steps {
-        git 'https://github.com/artem-pvl/devops_hw_11.git'
-        sh 'rsync -avzup /prod/docker-compose.yml root@node-1:./'
+        sh 'pwd'
+        sh 'rsync ./prod/docker-compose.yml root@node-1:./'
         sh 'ssh root@node-1 docker-compose up -d'
             // && docker run -d --rm --name prodserver -p 80:8080 nexus:8123/prodserver:latest'
         // sh 'touch ~/.ssh/known_hosts'
