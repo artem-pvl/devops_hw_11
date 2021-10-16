@@ -4,5 +4,5 @@ services:
   run:
     image: nexus:8123/prodserver:latest
     ports:
-      - 50:8080
+      - 80:8080
 ...
