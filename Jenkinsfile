@@ -6,8 +6,8 @@ pipeline {
     //   customWorkspace 'agent'
     // }
     dockerfile {
-      dir 'agent'
-      filename 'Dockerfile'
+      // dir 'agent'
+      filename './agent/Dockerfile'
       // dir './agent'
       // additionalBuildArgs '-t buildserver'
       // registryCredentialsId '6b2d0b83-9cca-4d23-b69b-bcf247bc8379'
