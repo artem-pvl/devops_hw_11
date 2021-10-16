@@ -65,7 +65,7 @@ pipeline {
     stage('Run prod docker container on node-1') {
       steps {
         sh 'pwd'
-        sh 'rsync ./prod/docker-compose.yml root@node-1:./'
+        sh 'rsync ./conf/prod/docker-compose.yml root@node-1:./'
         sh 'ssh root@node-1 docker-compose up -d'
             // && docker run -d --rm --name prodserver -p 80:8080 nexus:8123/prodserver:latest'
         // sh 'touch ~/.ssh/known_hosts'
@@ -77,10 +77,12 @@ pipeline {
   }
   post{
       success{
-          chuckNorris()
+        cleanWs()
+        chuckNorris()
       }
       failure{
-          echo "||| *** ||| pipeline execution failed ||| *** |||"
+        cleanWs()
+        echo "||| *** ||| pipeline execution failed ||| *** |||"
       }
   }
 }
