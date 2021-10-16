@@ -46,6 +46,7 @@ pipeline {
             sh 'docker build --tag prodserver ./conf/prod'
             sh 'docker tag prodserver nexus:8123/prodserver:latest'
             docker.image('prodserver').push('latest')
+            sh 'docker rmi nexus:8123/prodserver:latest'
           }
         }
       }   
