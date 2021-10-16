@@ -29,7 +29,7 @@ pipeline {
     }
     stage('Run prod docker container on node-1') {
       steps {
-        sh 'rsync ./conf/prod/docker-compose.yml root@node-1:./'
+        sh 'rsync /conf/prod/docker-compose.yml root@node-1:./'
         sh 'ssh root@node-1 docker-compose up -d'
       }
     }
