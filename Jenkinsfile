@@ -7,6 +7,12 @@ pipeline {
     }
   }
   stages{
+    stage('debug') {
+      steps {
+        sh 'id'
+        sh 'cat /$USER/.ssh/id_rsa'
+      }
+    }
     stage('Copy source with configs') {
       steps {
         git 'https://github.com/boxfuse/boxfuse-sample-java-war-hello.git'
