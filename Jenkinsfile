@@ -5,13 +5,11 @@ pipeline {
     //   filename 'Dockerfile'
     //   customWorkspace 'agent'
     // }
-    dockerfile {
-      dir '.'
-      filename 'agent/Dockerfile'
-      // dir './agent'
-      // additionalBuildArgs '-t buildserver'
-      // registryCredentialsId '6b2d0b83-9cca-4d23-b69b-bcf247bc8379'
-      // registryUrl 'http://nexus:8123'
+    docker {
+      alwaysPull true
+      image 'buildserver:latest'
+      registryCredentialsId '6b2d0b83-9cca-4d23-b69b-bcf247bc8379'
+      registryUrl 'nexus:8123'
     }
   }
   stages{
