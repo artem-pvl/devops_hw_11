@@ -32,6 +32,7 @@ pipeline {
         sh 'rsync /conf/prod/docker-compose.yml root@node-1:./'
         sh 'ssh root@node-1 docker pull nexus:8123/prodserver:latest'
         sh 'ssh root@node-1 docker-compose up -d'
+        sh 'ssh root@node-1 docker image prune -a -f'
       }
     }
   }
