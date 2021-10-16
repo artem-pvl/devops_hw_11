@@ -1,0 +1,8 @@
+---
+version: "3.6"
+services:
+  run:
+    image: nexus:8123/prodserver:latest
+    ports:
+      - 50:8080
+...
