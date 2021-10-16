@@ -45,8 +45,7 @@ pipeline {
         }
       }
       steps {
-        // sh 'rm -rf ./conf'
-        // sh 'git clone https://github.com/artem-pvl/devops_hw_11.git ./conf'
+        sh 'git clone https://github.com/artem-pvl/devops_hw_11.git ./conf'
         git 'https://github.com/boxfuse/boxfuse-sample-java-war-hello.git'
         withMaven {
           sh 'mvn package'
@@ -64,7 +63,6 @@ pipeline {
     }
     stage('Run prod docker container on node-1') {
       steps {
-        sh 'pwd'
         sh 'rsync ./conf/prod/docker-compose.yml root@node-1:./'
         sh 'ssh root@node-1 docker-compose up -d'
             // && docker run -d --rm --name prodserver -p 80:8080 nexus:8123/prodserver:latest'
