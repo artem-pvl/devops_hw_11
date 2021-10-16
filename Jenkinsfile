@@ -1,9 +1,16 @@
 pipeline {
   agent {
+    // dockerfile {
+    //   dir './agent'
+    //   filename 'Dockerfile'
+    //   customWorkspace 'agent'
+    // }
     dockerfile {
       dir 'agent'
       filename 'Dockerfile'
-      customWorkspace 'agent'
+      label 'buildagent'
+      registryCredentialsId '6b2d0b83-9cca-4d23-b69b-bcf247bc8379'
+      registryUrl 'http://nexus:8123'
     }
   }
   stages{
