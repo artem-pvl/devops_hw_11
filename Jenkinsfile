@@ -11,6 +11,7 @@ pipeline {
         }
       }
       steps {
+        cleanWs()
         sh 'git clone https://github.com/artem-pvl/devops_hw_11.git ./conf'
         git 'https://github.com/boxfuse/boxfuse-sample-java-war-hello.git'
         withMaven {
