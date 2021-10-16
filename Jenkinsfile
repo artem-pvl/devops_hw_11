@@ -7,9 +7,9 @@ pipeline {
     // }
     docker {
       alwaysPull true
-      image 'buildserver:latest'
-      registryCredentialsId '6b2d0b83-9cca-4d23-b69b-bcf247bc8379'
-      registryUrl 'nexus:8123'
+      image 'nexus:8123/buildserver:latest'
+      // registryCredentialsId '6b2d0b83-9cca-4d23-b69b-bcf247bc8379'
+      // registryUrl 'nexus:8123'
     }
   }
   stages{
