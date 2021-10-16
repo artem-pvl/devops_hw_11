@@ -33,6 +33,7 @@ pipeline {
         // cleanWs()
         // sh 'git clone https://github.com/artem-pvl/devops_hw_11.git /conf'
         sh 'rsync /conf/prod/docker-compose.yml root@node-1:./'
+        sh 'ssh root@node-1 docker pull nexus:8123/prodserver:latest'
         sh 'ssh root@node-1 docker-compose up -d'
       }
     }
