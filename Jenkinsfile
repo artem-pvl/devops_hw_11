@@ -11,7 +11,7 @@ pipeline {
     stage('debug') {
       steps {
         sh 'id'
-        sh 'cat /$USER/.ssh/id_rsa'
+        sh 'cat /root/.ssh/id_rsa'
       }
     }
     // stage('Copy source with configs') {
@@ -39,7 +39,8 @@ pipeline {
         docker {
           alwaysPull true
           reuseNode true
-          args '-u 0:0 -v /$USER/.ssh/id_rsa:/$USER/.ssh/id_rsa'
+          args '-u 0:0'
+          // args '-u 0:0 -v /root/.ssh/id_rsa:/root/.ssh/id_rsa'
           image 'nexus:8123/buildserver:latest'
         }
       }
