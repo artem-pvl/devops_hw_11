@@ -1,8 +1,8 @@
 FROM ubuntu:latest
+USER 1000
 ARG DEBIAN_FRONTEND=noninteractive
 RUN apt update
 RUN apt install -y default-jdk maven
 RUN apt install -y docker.io
 RUN apt clean
-RUN useradd -u 1000 -g root jenkins
 COPY daemon.json /etc/docker/
