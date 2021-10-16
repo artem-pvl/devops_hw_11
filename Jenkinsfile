@@ -30,8 +30,8 @@ pipeline {
     }
     stage('Run prod docker container on node-1') {
       steps {
-        cleanWs()
-        sh 'git clone https://github.com/artem-pvl/devops_hw_11.git /conf'
+        // cleanWs()
+        // sh 'git clone https://github.com/artem-pvl/devops_hw_11.git /conf'
         sh 'rsync /conf/prod/docker-compose.yml root@node-1:./'
         sh 'ssh root@node-1 docker-compose up -d'
       }
