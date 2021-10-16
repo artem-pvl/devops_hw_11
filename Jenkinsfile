@@ -1,15 +1,9 @@
 pipeline {
   agent {
-    // dockerfile {
-    //   dir './agent'
-    //   filename 'Dockerfile'
-    //   customWorkspace 'agent'
-    // }
     docker {
       alwaysPull true
+      args '-u 0:0 -v /$USER/.ssh/id_rsa:/$USER/.ssh/id_rsa'
       image 'nexus:8123/buildserver:latest'
-      // registryCredentialsId '6b2d0b83-9cca-4d23-b69b-bcf247bc8379'
-      // registryUrl 'nexus:8123'
     }
   }
   stages{
@@ -57,11 +51,8 @@ pipeline {
     }
     stage('Run prod docker container on node-1') {
       steps {
-        sh 'echo $USER'
-        sshagent(['jenkins']) {
-          sh 'ssh -vvv root@node-1 docker stop prodserver'
+        sh 'ssh -vvv root@node-1 docker stop prodserver'
             // && docker run -d --rm --name prodserver -p 80:8080 nexus:8123/prodserver:latest'
-        }        
         // sh 'touch ~/.ssh/known_hosts'
         // sh 'ssh-keyscan -H node-1 >> ~/.ssh/known_hosts'
         // sh 'ssh root@node-1 << EOF'
