@@ -45,8 +45,10 @@ pipeline {
         }
       }
       steps {
+        sh 'rm -rf ./conf'
+        sh 'git clone https://github.com/artem-pvl/devops_hw_11.git ./conf'
         withMaven {
-          sh 'mvn package'
+          sh 'mvn -f ./conf package'
         }
         script {
           docker.withRegistry('http://nexus:8123', '6b2d0b83-9cca-4d23-b69b-bcf247bc8379') {
